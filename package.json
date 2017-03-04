@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simgill13/weekendword.git"
+    "url": "git+https://github.com/brianmsj/thinkbase.git"
   },"dependencies": {
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
@@ -28,7 +28,7 @@
   "author": "groupwork",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/simgill13/weekendword/issues"
+    "url": "https://github.com/brianmsj/thinkbase.git"
   },
-  "homepage": "https://github.com/simgill13/weekendword#readme"
+  "homepage": "https://github.com/brianmsj/thinkbase.git"
 }
