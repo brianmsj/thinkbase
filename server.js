@@ -5,7 +5,7 @@ const path = require('path');
 const pg = require('pg');
 const NestHydrationJS = require('nesthydrationjs')();
 const exphbs = require('express-handlebars');
-pg.defaults.ssl = true;
+//pg.defaults.ssl = true;
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'})); 
 app.set('view engine', 'handlebars');
