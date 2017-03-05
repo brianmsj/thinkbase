@@ -1,0 +1,20 @@
+   <h1>LIBRARY</h1>
+   <ul id="units-js">
+    {{#each units}}
+      <li>
+        {{this.unit_name}}
+        <ul>
+          {{#each this.lessons}}
+            <li>
+              {{this.lesson_name}}
+               <ul>
+                {{#each this.sublessons}}
+                  <li>{{this.sublesson_name}}</li>
+                {{/each}}
+              </ul>  
+            </li>
+          {{/each}}
+        </ul>
+      </li>
+    {{/each}}
+   </ul>
