@@ -24,6 +24,10 @@ app.post('/links', (req,res) => {
 res.status(200).send(JSON.stringify(req.body));
 	const dummy = {
 		url : req.body.url,
+    votes: 1,
+    lesson_id: 2,
+    unit_id: 3,
+    sublesson_id: 2
 	};
     knex('links')
     .insert(dummy)
