@@ -20,28 +20,12 @@ const knex = require('knex')({
 
 
 
-// app.post('/test', (req,res) => {
-//     knex.schema.createTableIfNotExists("test", function (table) {
-//         table.increments();
-//         table.string('name');
-//         table.string('description');
-//     })
-//     .then(data => {
-//     	console.log(data);
-//     	res.status(200).json({message: "hope"});
-//     });
-// });
-
-
-
-
-app.post('/test', (req,res) => {
+app.post('/links', (req,res) => {
 res.status(200).send(JSON.stringify(req.body));
 	const dummy = {
-		name : req.body.name,
-		description : req.body.description
+		url : req.body.url,
 	};
-    knex('test')
+    knex('links')
     .insert(dummy)
     .then(data => {
     console.log(data);
