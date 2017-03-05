@@ -72,7 +72,7 @@ app.get('/sublessons', (req,res) => {
 // push to heroku master
 // check "open" app on heroku
 
-
+///-----------------------------AUTHENTICATION -----------------------------
 
 
 
