@@ -15,26 +15,6 @@ const knex = require('knex')({
   },
 });
 
-
-
-
-
-
-// app.post('/test', (req,res) => {
-//     knex.schema.createTableIfNotExists("test", function (table) {
-//         table.increments();
-//         table.string('name');
-//         table.string('description');
-//     })
-//     .then(data => {
-//     	console.log(data);
-//     	res.status(200).json({message: "hope"});
-//     });
-// });
-
-
-
-
 app.post('/test', (req,res) => {
 res.status(200).send(JSON.stringify(req.body));
 	const dummy = {
@@ -81,25 +61,6 @@ app.get('/sublessons', (req,res) => {
 		res.status(200).json(data);
 	});
 });
-
-// steps to make this work
-//1 run npm install
-//2 push to github
-// push to heroku master
-// check "open" app on heroku
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // DO NOT REMOVE THIS -----EVER ----it is needed
 app.listen(process.env.PORT || 8080, () => console.log(
