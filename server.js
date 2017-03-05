@@ -12,7 +12,7 @@ const knex = require('knex')({
     user : 'ialeurvhndzsio',
     password : 'e2016813fd4c28db4b657859fdfbcd15bc8039c67dda63b52987a40efa4aca4b',
     database : 'd4mcuuro9s7ol0'
-  },
+  }
 });
 
 app.post('/test', (req,res) => {
@@ -29,6 +29,9 @@ res.status(200).send(JSON.stringify(req.body));
     });
 });
 
+app.get('/library', (req, res) => {
+	knex()
+});
 
 app.get('/units', (req,res) => {
 	knex('units')
@@ -65,3 +68,10 @@ app.get('/sublessons', (req,res) => {
 // DO NOT REMOVE THIS -----EVER ----it is needed
 app.listen(process.env.PORT || 8080, () => console.log(
   `Your app is listening on port ${process.env.PORT || 8080 }`));
+
+
+
+
+//=========================================================DEV CONTENT
+
+//heroku pg:psql postgresql-sinuous-91119 --app thinkbase
