@@ -2,11 +2,11 @@
    <ul id="units-js">
     {{#each units}}
       <li>
-        {{this.unit_name}}
+        Unit {{this.unit_id}}: {{this.unit_name}}
         <ul>
           {{#each this.lessons}}
             <li>
-              {{this.lesson_name}}
+              Lesson {{this.lesson_id}}: {{this.lesson_name}}
                <ul>
                 {{#each this.sublessons}}
                   <li>{{this.sublesson_name}}</li>

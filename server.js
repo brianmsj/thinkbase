@@ -5,7 +5,7 @@ const path = require('path');
 const pg = require('pg');
 const NestHydrationJS = require('nesthydrationjs')();
 const exphbs = require('express-handlebars');
-//pg.defaults.ssl = true;
+pg.defaults.ssl = true;
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'})); 
 app.set('view engine', 'handlebars');
@@ -22,10 +22,13 @@ const knex = require('knex')({
 
 var definition = [{
 	unit_name: 'unit_name',
+	unit_id: 'unit_id',
 	lessons: [{
 		lesson_name: 'lesson_name',
+		lesson_id: 'lesson_id',
 		sublessons: [{
 			sublesson_name: 'sublesson_name',
+			sublesson_id: 'sublesson_id',
 			links: [{
 				url: 'link_url'
 			}]
@@ -41,17 +44,20 @@ app.use('/',express.static(path.join(__dirname, 'client')));
 
 app.get('/library', (req, res) => {
 	knex
-	.from('lessons')
-	.join('units', 'units.id', 'lessons.unit_id')
+	.from('units')
+	.join('lessons', 'units.id', 'lessons.unit_id')
+	.orderBy('units.id', 'asc')
 	.join('sublesson', 'lessons.id', 'sublesson.lesson_id')
+	.orderBy('lessons.id', 'asc')
 	.leftOuterJoin('links', 'sublesson.id', 'links.sublesson_id')
-	.select('units.name as unit_name', 'lessons.name as lesson_name', 'sublesson.name as sublesson_name', 'links.url as link_url')
+	.orderBy('sublesson.id', 'asc')
+	.select('units.name as unit_name', 'units.id as unit_id', 'lessons.name as lesson_name', 'lessons.id as lesson_id', 
+					'sublesson.name as sublesson_name', 'sublesson.id as sublesson_id')
+	//, 'links.url as link_url'
 	.then(data => NestHydrationJS.nest(data, definition))
 	.then(units => {
-		//res.sendFile(path.join(__dirname+'/client/library.html')).json(results);
-		console.log(units);
 		res.render('library', {units});
-		//res.status(200).json(results);
+		console.log(units);
 	});
 });
 
