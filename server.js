@@ -5,9 +5,10 @@ const path = require('path');
 const pg = require('pg');
 const NestHydrationJS = require('nesthydrationjs')();
 const exphbs = require('express-handlebars');
+const bcrypt = require('bcryptjs');
 pg.defaults.ssl = true;
 
-app.engine('handlebars', exphbs({defaultLayout: 'main'})); 
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 const knex = require('knex')({
@@ -19,6 +20,13 @@ const knex = require('knex')({
 			database : 'd4mcuuro9s7ol0'
   }
 });
+const bookshelf = require('bookshelf')(knex);
+const User = bookshelf.Model.extend({
+   tableName: 'users',
+   username: function(){
+     return this.hasMany(Username);
+   }
+ });
 
 var definition = [{
 	unit_name: 'unit_name',
@@ -51,7 +59,7 @@ app.get('/library', (req, res) => {
 	.orderBy('lessons.id', 'asc')
 	.leftOuterJoin('links', 'sublesson.id', 'links.sublesson_id')
 	.orderBy('sublesson.id', 'asc')
-	.select('units.name as unit_name', 'units.id as unit_id', 'lessons.name as lesson_name', 'lessons.id as lesson_id', 
+	.select('units.name as unit_name', 'units.id as unit_id', 'lessons.name as lesson_name', 'lessons.id as lesson_id',
 					'sublesson.name as sublesson_name', 'sublesson.id as sublesson_id')
 	//, 'links.url as link_url'
 	.then(data => NestHydrationJS.nest(data, definition))
@@ -109,7 +117,64 @@ app.get('/sublessons', (req,res) => {
 		res.status(200).json(data);
 	});
 });
+// creates a new user
 
+app.post('/users', (req, res) => {
+  const requiredFields = ['username', 'password', 'firstname', 'lastname'];
+  const missingIndex = requiredFields.findIndex(field => !req.body[field]);
+  if (missingIndex != -1) {
+     return res.status(400).json({
+       message: `Missing field: ${requiredFields[missingIndex]}`
+     });
+   }
+
+  let {username, password, firstname, lastname} = req.body;
+  username = username.trim();
+  password = password.trim();
+  knex('users')
+    .where({ username: username})
+    .select('id')
+    .then(id => {
+      if(id.length > 0){
+        res.status(422).json({message: `You're already in the db bro`});
+      }
+      return bcrypt.hash(password, 5)
+    })
+    .then(hash => {
+      knex
+        .insert([{username: username},{password: hash},{firstname: firstname},{lastname: lastname}])
+        .into('users')
+        .returning(username)
+        console.log(username, firstname);
+    })
+    .then(user => res.json({message: `${user} has been added, you can now upvote`}));
+
+
+});
+function loginValidation(req, res, next) {
+var usernameReq = req.body.username;
+var passwordReq;
+knex('users')
+  .where({ username: "brianmsj" })
+  .select('password')
+  .then(function(result) {
+    console.log(result);
+    if (!result || !result[0])  {  // not found!
+      // report invalid username
+      return;
+    }
+    var pass = result[0].password;
+    if (passwordReq === pass) {
+      // login
+    } else {
+      // failed login
+    }
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+  next()
+};
 // steps to make this work
 //1 run npm install
 //2 push to github
