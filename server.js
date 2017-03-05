@@ -112,16 +112,8 @@ app.get('/sublessons', (req,res) => {
 
 ///-----------------------------AUTHENTICATION -----------------------------
 
-
-
-
-
-
-
-
-
-
-
 // DO NOT REMOVE THIS -----EVER ----it is needed
 app.listen(process.env.PORT || 8080, () => console.log(
   `Your app is listening on port ${process.env.PORT || 8080 }`));
+
+//heroku pg:psql postgresql-sinuous-91119 --app thinkbase
