@@ -148,33 +148,8 @@ app.post('/users', (req, res) => {
 
     })
     .then(user => res.status(201).json({message: `${user} has been added, you can now upvote`}));
-
-
 });
-function loginValidation(req, res, next) {
-var usernameReq = req.body.username;
-var passwordReq;
-knex('users')
-  .where({ username: "brianmsj" })
-  .select('password')
-  .then(function(result) {
-    console.log(result);
-    if (!result || !result[0])  {  // not found!
-      // report invalid username
-      return;
-    }
-    var pass = result[0].password;
-    if (passwordReq === pass) {
-      // login
-    } else {
-      // failed login
-    }
-  })
-  .catch(function(error) {
-    console.log(error);
-  });
-  next()
-};
+
 // steps to make this work
 //1 run npm install
 //2 push to github
