@@ -141,13 +141,13 @@ app.post('/users', (req, res) => {
       return bcrypt.hash(password, 5)
     })
     .then(hash => {
-      knex
-        .insert([{username: username},{password: hash},{firstname: firstname},{lastname: lastname}])
+      return knex
+        .insert({username: username, password: hash, firstname: firstname, lastname: lastname})
         .into('users')
-        .returning(username)
-        console.log(username, firstname);
+        .returning('username')
+
     })
-    .then(user => res.json({message: `${user} has been added, you can now upvote`}));
+    .then(user => res.status(201).json({message: `${user} has been added, you can now upvote`}));
 
 
 });
